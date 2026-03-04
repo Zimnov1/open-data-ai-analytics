@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "E:\Work\Politeh\3_year_2_semester\Development_environment\actions-runner\_work\open-data-ai-analytics\open-data-ai-analytics\src\visualization.py", line 21, in <module>
+    with open("artifacts/visualization/run.log", "w") as f:
+PermissionError: [Errno 13] Permission denied: 'artifacts/visualization/run.log'
