@@ -8,7 +8,7 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: ./_actions/actions/checkout/v4
 
       - name: Use system Python
         run: |
