@@ -28,8 +28,6 @@ jobs:
       matrix:
         module: [data_load, data_quality_analysis, data_research, visualization]
 
-    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.module == 'all' || github.event.inputs.module == matrix.module }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,12 +43,14 @@ jobs:
           pip install pandas matplotlib openpyxl xlrd
 
       - name: Run module
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.module == 'all' || github.event.inputs.module == matrix.module }}
         run: |
           mkdir -p artifacts/${{ matrix.module }}
           echo "Running ${{ matrix.module }}"
           python src/${{ matrix.module }}.py > artifacts/${{ matrix.module }}/run.log 2>&1 || true
 
       - name: Upload artifacts
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.module == 'all' || github.event.inputs.module == matrix.module }}
         uses: actions/upload-artifact@v4
         with:
           name: artifacts-${{ matrix.module }}
