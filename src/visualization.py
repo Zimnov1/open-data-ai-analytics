@@ -5,7 +5,7 @@ import os
 if __name__ == "__main__":
     os.makedirs("artifacts/visualization", exist_ok=True)
     try:
-        df = pd.read_excel("../data/raw/dohodi_vsi.xls")
+        df = pd.read_excel("data/raw/dohodi_vsi.xls")
         df_grouped = df.groupby('Community')['IndicatorValue'].sum().sort_values(ascending=False)
         top10 = df_grouped.head(10)
 

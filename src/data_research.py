@@ -11,7 +11,7 @@ def data_research(df):
 if __name__ == "__main__":
     os.makedirs("artifacts/data_research", exist_ok=True)
     try:
-        df = pd.read_excel("../data/raw/dohodi_vsi.xls")
+        df = pd.read_excel("data/raw/dohodi_vsi.xls")
         top5, min_val, max_val, ratio = data_research(df)
         top5.to_csv("artifacts/data_research/top5.csv", index=False)
         with open("artifacts/data_research/run.log", "w") as f:

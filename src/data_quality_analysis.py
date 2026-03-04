@@ -10,7 +10,7 @@ def data_quality(df):
 if __name__ == "__main__":
     os.makedirs("artifacts/data_quality_analysis", exist_ok=True)
     try:
-        df = pd.read_excel("../data/raw/dohodi_vsi.xls")
+        df = pd.read_excel("data/raw/dohodi_vsi.xls")
         info, na_counts, stats = data_quality(df)
         stats.to_csv("artifacts/data_quality_analysis/stats.csv")
         with open("artifacts/data_quality_analysis/run.log", "w") as f:
