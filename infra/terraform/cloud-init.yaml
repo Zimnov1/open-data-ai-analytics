@@ -1,0 +1,11 @@
+package_upgrade: true
+packages:
+  - docker.io
+  - docker-compose-v2
+  - git
+
+runcmd:
+  - systemctl start docker
+  - systemctl enable docker
+  - mkdir -p /app
+  - git clone https://github.com/Zimnov1/open-data-ai-analytics.git /app
