@@ -14,3 +14,17 @@
 
 3.Існує значна різниця між максимальними та мінімальними доходами громад.
 
+
+
+Як запустити проект в Azure
+
+1\. Відкрийте Azure Cloud Shell.
+
+2\. Клонуйте репозиторій: `git clone https://github.com/Zimnov1/open-data-ai-analytics.git`.
+
+3\. Перейдіть в `infra/terraform`.
+
+4\. Виконайте `terraform init` та `terraform apply -auto-approve`.
+
+5\. Дочекайтеся завершення (5-7 хв) та перейдіть за http://20.224.215.212:5000/.
+
