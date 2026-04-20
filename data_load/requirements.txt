@@ -1,0 +1,5 @@
+pandas
+sqlalchemy
+psycopg2-binary
+openpyxl
+xlrd>=2.0.1

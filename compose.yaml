@@ -1,0 +1,106 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: project_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: project_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - data_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d project_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  data_load:
+    build: ./data_load
+    container_name: project_data_load
+    working_dir: /app/data_load 
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/project_db
+    volumes:
+      - .:/app  
+    networks:
+      - data_network
+
+  quality_analysis:
+    build: ./data_quality_analysis
+    container_name: project_quality
+    working_dir: /app/data_quality_analysis
+    depends_on:
+      data_load:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/project_db
+    volumes:
+      - .:/app 
+      - shared_reports:/app/data_quality_analysis/artifacts/data_quality_analysis
+    networks:
+      - data_network
+
+  research:
+    build: ./data_research
+    container_name: project_research
+    working_dir: /app/data_research
+    depends_on:
+      data_load:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/project_db
+    volumes:
+      - .:/app 
+      - shared_reports:/app/data_research/artifacts/data_research
+    networks:
+      - data_network
+
+  visualization:
+    build: ./visualization
+    container_name: project_viz
+    working_dir: /app/visualization
+    depends_on:
+      data_load:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/project_db
+    volumes:
+      - .:/app 
+      - shared_plots:/app/visualization/artifacts/visualization
+    networks:
+      - data_network
+
+  web:
+    build: ./web
+    container_name: project_web
+    restart: always
+    working_dir: /app/web
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/project_db
+    volumes:
+      - .:/app  
+      - shared_reports:/app/static/reports:ro
+      - shared_plots:/app/static/plots:ro
+    networks:
+      - data_network
+
+networks:
+  data_network:
+    driver: bridge
+
+volumes:
+  db_data:
+  shared_reports:
+  shared_plots:
