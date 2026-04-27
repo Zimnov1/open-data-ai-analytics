@@ -60,7 +60,7 @@ def index():
     </head>
     <body class="container">
         <div class="header-box text-center">
-            <h1>Community Income Analysis</h1>
+            <h1>Community Income Analysis (v2.0)</h1>
             <p>Automated pipeline for processing, analyzing, and visualizing open data.</p>
         </div>
 
