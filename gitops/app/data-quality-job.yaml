@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-quality-job
+  namespace: my-app-namespace
+spec:
+  template:
+    spec:
+      containers:
+      - name: data-quality
+        image: zimnov/data_quality:latest
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://user:password@postgres-service:5432/mydb" # Твоє посилання на БД
+      restartPolicy: Never

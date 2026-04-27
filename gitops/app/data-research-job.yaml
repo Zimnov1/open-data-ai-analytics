@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-research-job
+  namespace: my-app-namespace
+spec:
+  template:
+    spec:
+      containers:
+      - name: data-research
+        image: zimnov/data_research:latest
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://user:password@postgres-service:5432/mydb"
+      restartPolicy: Never
